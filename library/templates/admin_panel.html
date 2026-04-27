@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    <a href="/logout/">Logout</a>
+
+    <hr>
+
+    <h2>Pending Requests</h2>
+    {% for req in pending %}
+    <div>
+        <p><strong>{{ req.user.username }}</strong> wants to borrow <strong>{{ req.book.title }}</strong></p>
+        <p>Requested: {{ req.request_date|date:"d/m/Y H:i" }}</p>
+        <a href="/admin-panel/{{ req.id }}/accept/">✅ Accept</a> |
+        <a href="/admin-panel/{{ req.id }}/reject/">❌ Reject</a>
+    </div>
+    <hr>
+    {% empty %}
+        <p>No pending requests.</p>
+    {% endfor %}
+
+    <h2>Active Loans</h2>
+    {% for req in active %}
+    <div>
+        <p><strong>{{ req.user.username }}</strong> borrowed <strong>{{ req.book.title }}</strong></p>
+        <p>Due date: {{ req.due_date|date:"d/m/Y" }}</p>
+        <a href="/admin-panel/{{ req.id }}/return/">↩️ Mark as Returned</a>
+    </div>
+    <hr>
+    {% empty %}
+        <p>No active loans.</p>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: libteca
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn libteca.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false

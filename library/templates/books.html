@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Books</title>
+</head>
+<body>
+    <h1>My Books</h1>
+    <p>Welcome, {{ request.user.username }}</p>
+    <a href="/logout/">Logout</a>
+
+    <hr>
+
+    <h2>Add a Book</h2>
+    <form method="POST" action="/books/">
+        {% csrf_token %}
+        <label>Title:</label><br>
+        <input type="text" name="title"><br><br>
+        <label>Author:</label><br>
+        <input type="text" name="author"><br><br>
+        <label>Status:</label><br>
+        <select name="status">
+            <option value="reading">Reading</option>
+            <option value="completed">Completed</option>
+            <option value="wishlist">Want to Read</option>
+        </select><br><br>
+        <label>Notes:</label><br>
+        <textarea name="notes"></textarea><br><br>
+        <button type="submit">Add Book</button>
+    </form>
+
+    <hr>
+
+    <h2>My List</h2>
+    {% for book in books %}
+        <div>
+            <h3>{{ book.title }}</h3>  <!-- Django escapa automaticamente → proteção XSS -->
+            <p>Author: {{ book.author }}</p>
+            <p>Status: {{ book.status }}</p>
+            <p>Notes: {{ book.notes }}</p>
+        </div>
+        <hr>
+    {% empty %}
+        <p>No books yet!</p>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Libteca — Endpoints</title>
+</head>
+<body>
+    <h1>Libteca</h1>
+    <p>Sistema de Gestão de Biblioteca Online</p>
+    <hr>
+
+    <h2>Endpoints Públicos</h2>
+    <table border="1">
+        <tr>
+            <td><a href="/login/">login</a></td>
+            <td>Página de autenticação</td>
+            <td>Público</td>
+        </tr>
+        <tr>
+            <td><a href="/register/">register</a></td>
+            <td>Registo de novo utilizador</td>
+            <td>Público</td>
+        </tr>
+    </table>
+
+    <h2>Endpoints — User</h2>
+    <table border="1">
+        <tr>
+            <td><a href="/catalog/">catalog</a></td>
+            <td>Catálogo de livros com pesquisa em tempo real</td>
+        </tr>
+        <tr>
+            <td>/borrow/&lt;id&gt;/</td>
+            <td>Pedido de empréstimo de um livro</td>
+        </tr>
+        <tr>
+            <td><a href="/my-books/">my-books</a></td>
+            <td>Lista de pedidos e empréstimos do utilizador</td>
+        </tr>
+        <tr>
+            <td><a href="/logout/">logout</a></td>
+            <td>Terminar sessão</td>
+        </tr>
+    </table>
+
+    <h2>Endpoints — Admin</h2>
+    <table border="1">
+        <tr>
+            <td><a href="/admin-panel/">admin-panel</a></td>
+            <td>Painel de gestão de pedidos de empréstimo</td>
+        </tr>
+        <tr>
+            <td>/admin-panel/&lt;id&gt;/accept/</td>
+            <td>Aceitar pedido de empréstimo</td>
+        </tr>
+        <tr>
+            <td>/admin-panel/&lt;id&gt;/reject/</td>
+            <td>Rejeitar pedido de empréstimo</td>
+        </tr>
+        <tr>
+            <td>/admin-panel/&lt;id&gt;/return/</td>
+            <td>Marcar livro como devolvido</td>
+        </tr>
+        <tr>
+            <td><a href="/admin/">admin</a></td>
+            <td>Django Admin — backoffice completo</td>
+        </tr>
+    </table>
+
+    <hr>
+    <p>
+        {% if user.is_authenticated %}
+            Autenticado como <strong>{{ user.username }}</strong> —
+            {% if user.is_staff %}
+                <a href="/admin-panel/">Ir para o painel</a>
+            {% else %}
+                <a href="/catalog/">Ir para o catálogo</a>
+            {% endif %}
+            | <a href="/logout/">Logout</a>
+        {% else %}
+            <a href="/login/">Login</a> | <a href="/register/">Registar</a>
+        {% endif %}
+    </p>
+</body>
+</html>

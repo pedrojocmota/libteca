@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Borrow Book</title>
+</head>
+<body>
+    <h1>Borrow Request</h1>
+    <p>Are you sure you want to request to borrow:</p>
+    <h2>{{ book.title }}</h2>
+    <p>Author: {{ book.author }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Confirm Request</button>
+        <a href="/catalog/">Cancel</a>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+    </form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Books</title>
+</head>
+<body>
+    <h1>My Borrowed Books</h1>
+    <a href="/catalog/">Back to Catalog</a> | <a href="/logout/">Logout</a>
+
+    <hr>
+
+    {% for req in requests %}
+    <div>
+        <h3>{{ req.book.title }}</h3>
+        <p>Author: {{ req.book.author }}</p>
+        <p>Status: {{ req.status }}</p>
+        <p>Requested: {{ req.request_date|date:"d/m/Y" }}</p>
+        {% if req.due_date %}
+            <p>Due date: {{ req.due_date|date:"d/m/Y" }}</p>
+        {% endif %}
+    </div>
+    <hr>
+    {% empty %}
+        <p>You have no borrow requests yet.</p>
+    {% endfor %}
+</body>
+</html>

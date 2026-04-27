@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Catalog</title>
+</head>
+<body>
+    <h1>Library Catalog</h1>
+    <p>Welcome, {{ request.user.username }}</p>
+    <a href="/my-books/">My Borrowed Books</a> | <a href="/logout/">Logout</a>
+
+    <hr>
+
+    <input type="text" id="search" placeholder="Search books..." autocomplete="off">
+
+    <div id="results"></div>
+
+    <!-- Dados dos livros escondidos em JSON no HTML -->
+    <script>
+        const allBooks = {{ books_json|safe }};
+
+        const search = document.getElementById('search');
+        const results = document.getElementById('results');
+
+        search.addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+
+            if (query.length < 2) {
+                results.innerHTML = '';
+                return;
+            }
+
+            const filtered = allBooks.filter(book =>
+                book.title.toLowerCase().includes(query) ||
+                book.author.toLowerCase().includes(query)
+            );
+
+            if (filtered.length === 0) {
+                results.innerHTML = '<p>Nao foram encontrados livros correspondentes.</p>';
+                return;
+            }
+
+            results.innerHTML = filtered.map(book => `
+                <div>
+                    <h3>${book.title}</h3>
+                    <p>Author: ${book.author}</p>
+                    <p>Status: ${
+                        book.borrowed_by_me
+                            ? '<strong>Borrowed by you</strong>'
+                            : book.available
+                                ? 'Available'
+                                : 'Unavailable'
+                    }</p>
+                    ${book.borrowed_by_me
+                        ? '<a href="/my-books/">View in My Books</a>'
+                        : book.available
+                            ? `<a href="/borrow/${book.id}/">Request to Borrow</a>`
+                            : ''
+                    }
+                </div>
+                <hr>
+            `).join('');
+        });
+    </script>
+</body>
+</html>
